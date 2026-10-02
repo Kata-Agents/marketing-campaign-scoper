@@ -31,10 +31,10 @@ Two consequences worth being blunt about, because they decide whether this is us
 |---|---|---|
 | `read_landing_page` | Extract the campaign-relevant facts from pasted landing page copy — offer, claims, proof, CTA, ICP signals, friction — separating what the page states from what it only implies. | `page_copy` |
 | `ask_next_brief_question` | Produce the single next intake question, with options derived from the landing page rather than from a generic list, and the decision it closes. | `brief_so_far` |
-| `record_brief_answer` | Record an intake answer into the brief, mark whether it closed the decision or created an assumption, and reissue the brief in full. | `brief_so_far`, `question`, `answer` |
+| `record_brief_answer` | Classify what an intake answer actually committed to — locked, locked with a gap, assumption, deferred or unanswered — and scan it against what is already recorded for contradictions. The reissued brief is a by-product; the classification is the output and exists nowhere else. | `brief_so_far`, `question`, `answer` |
 | `check_brief_conflicts` | Run the pre-lock conflict check — a KPI the page cannot produce, a claim with no support, a funnel layer mismatched to the offer — and name what must be resolved before freezing. | `brief_so_far` |
 | `freeze_brief` | Freeze the campaign brief for handoff: the full agreed text, every unanswered question, and every assumption standing in for one, each with what it costs if wrong. | `brief_so_far` |
-| `check_stage_gate` | Check whether the artifact the next pipeline stage requires was actually supplied, and refuse the handoff by name when only an identifier arrived. | `stage`, `artifacts_supplied` |
+| `check_stage_gate` | Check whether the artifact the next pipeline stage requires was actually supplied, and refuse the handoff by name when only an identifier arrived. Holding the artifact yourself is the reason to run this, not a reason to skip it. | `stage`, `artifacts_supplied` |
 
 Optional inputs render as empty when omitted. Every template names that case and says
 what it could not determine, so an empty slot degrades into a stated gap rather than a
@@ -43,19 +43,20 @@ dangling clause.
 ## Part of a department
 
 This agent is one member of the **marketing video ad** department, a
-hub-orchestrator team of 7. The hub is `marketing-brief-scoper`, which locks the brief every later
+hub-orchestrator team of 8. The hub is `marketing-campaign-scoper`, which locks the brief every later
 stage reads; the other members are
 reached through it or called directly as `<alias>__<tool>`.
 
 | Agent | Stage in the pipeline |
 |---|---|
-| `marketing-brief-scoper` | 1 — interviews for the brief and freezes it (department hub) |
+| `marketing-campaign-scoper` | 1 — interviews for the brief and freezes it (department hub) |
 | `marketing-ad-researcher` | 2 — competitor harvest plan, longevity ranking, customer voice, coverage |
 | `marketing-angle-strategist` | 3 — scored angle map with auditable arithmetic |
 | `marketing-hook-writer` | 4 — the modular creative bank, built on verbatim customer language |
 | `marketing-ad-scripter` | 5 — modules, continuity kits, prompts, assembly map, QA protocol |
 | `marketing-production-planner` | 6 — blockers, tracks, cost estimate, shoot briefs, release gates |
-| `marketing-ad-tester` | 7 — clip QA, test design, readout, and the feedback loop back to 3, 4 and 5 |
+| `marketing-introgen-briefer` | 7 — hands approved creative to IntroGen as a brief, an avoid list and a briefing record (runs only when IntroGen renders; no repo of its own) |
+| `marketing-ad-tester` | 8 — clip QA, test design, readout, and the feedback loop back to 3, 4 and 5 |
 
 Each member is published independently and works on its own.
 
